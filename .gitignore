@@ -354,3 +354,9 @@ MigrationBackup/
 
 # VSCode
 .vscode/
+
+# Local settings
+local.settings.json
+
+# Properties
+Properties/
