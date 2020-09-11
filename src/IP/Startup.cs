@@ -21,6 +21,7 @@ namespace IP
             builder.Services.AddSingleton<IDnsManagementService, DnsManagementService>();
             builder.Services.AddSingleton<IDnsPayloadService, DnsPayloadService>();
             builder.Services.AddSingleton<IDnsZoneService, DnsZoneService>();
+            builder.Services.AddSingleton<IAddressService, AddressService>();
             builder.Services.AddSingleton<IDnsRecordSetService, DnsRecordSetService>();
             builder.Services.AddSingleton<IValidator<DnsPayload>, DnsPayloadValidator>();
             builder.Services.AddSingleton(GetDnsManagementClient);
