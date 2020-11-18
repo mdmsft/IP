@@ -79,6 +79,23 @@ namespace IP.Tests
         }
 
         [Fact]
+        public async Task WhenV4IsEmptyAndIsDualStackThenRemovesRecordSet()
+        {
+            var update = new DnsPayload { IsDualStack = true, Client = "foo", Secret = "bar", Domain = "www.foo.bar" };
+            A.CallTo(() => dnsRecordSetService.GetRecordSetAsync("foo.bar", "www", RecordType.A)).Returns(new RecordSet(metadata: new Dictionary<string, string> { { "Owner", "foo" } }, aRecords: new List<ARecord> { new ARecord("5.6.7.8") }));
+
+            Expression<Func<RecordSet, bool>> recordSetPredicate = recordSet =>
+                recordSet.Metadata.ContainsKey("Owner") &&
+                recordSet.Metadata["Owner"] == "foo" &&
+                recordSet.ARecords.Single().Ipv4Address == "1.2.3.4";
+
+            await sut.ProcessAsync(update);
+
+            A.CallTo(() => dnsRecordSetService.CreateOrUpdateRecordSetAsync(A<string>._, A<string>._, A<RecordType>._, A<RecordSet>._)).MustNotHaveHappened();
+            A.CallTo(() => dnsRecordSetService.DeleteRecordSetAsync("foo.bar", "www", RecordType.A)).MustHaveHappenedOnceExactly();
+        }
+
+        [Fact]
         public async Task WhenV6AndRecordSetDoesNotExistThenCreatesRecordSetWithMetadata()
         {
             var update = new DnsPayload { V6 = "::1", Client = "foo", Secret = "bar", Domain = "www.foo.bar" };

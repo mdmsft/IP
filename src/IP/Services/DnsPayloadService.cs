@@ -53,16 +53,16 @@ namespace IP.Services
             }
 
             string[] authorization;
-            
+
             try
             {
-                authorization = Encoding.ASCII.GetString(Convert.FromBase64String(authorizationHeaderValue.Substring(6))).Split(':');
+                authorization = Encoding.ASCII.GetString(Convert.FromBase64String(authorizationHeaderValue[6..])).Split(':');
             }
             catch (FormatException e)
             {
                 logger.LogError(e, "Base64 decoding error: {0}", authorizationHeaderValue);
                 throw new SecurityException("Authorization header is not base64 encoded");
-            } 
+            }
 
             if (authorization.Length != 2)
             {
@@ -73,7 +73,7 @@ namespace IP.Services
             var client = authorization[0];
             var secret = authorization[1];
 
-            var update = new DnsPayload { V4 = v4, V6 = v6, Domain = domain, Client = client, Secret = secret };
+            var update = new DnsPayload { V4 = v4, V6 = v6, Domain = domain, Client = client, Secret = secret, IsDualStack = dualStack?.Equals("1") == true };
 
             await validator.ValidateAndThrowAsync(update);
 

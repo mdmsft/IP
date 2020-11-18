@@ -12,6 +12,8 @@
 
         public string Secret { get; set; }
 
+        public bool IsDualStack { get; set; }
+
         public string ZoneName => string.Join('.', Domain.Split('.')[1..]);
 
         public string RecordSetName => Domain.Split('.')[0];

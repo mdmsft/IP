@@ -8,5 +8,7 @@ namespace IP.Services
         Task<RecordSet> GetRecordSetAsync(string zoneName, string recordSetName, RecordType recordType);
 
         Task CreateOrUpdateRecordSetAsync(string zoneName, string recordSetName, RecordType recordType, RecordSet recordSet);
+
+        Task DeleteRecordSetAsync(string zoneName, string recordSetName, RecordType recordType);
     }
 }

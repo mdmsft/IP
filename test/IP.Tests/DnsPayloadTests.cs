@@ -7,7 +7,7 @@ namespace IP.Tests
     {
         private readonly DnsPayload sut = new DnsPayload { Domain = "www.foo.bar" };
 
-    [Fact]
+        [Fact]
         public void WhenGetZoneNameThenReturnsZoneNameFromDomain()
         {
             Assert.Equal("foo.bar", sut.ZoneName);

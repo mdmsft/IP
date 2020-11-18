@@ -23,6 +23,11 @@ namespace IP.Services
             await client.RecordSets.CreateOrUpdateAsync(resourceGroupName, zoneName, recordSetName, recordType, recordSet);
         }
 
+        public async Task DeleteRecordSetAsync(string zoneName, string recordSetName, RecordType recordType)
+        {
+            await client.RecordSets.DeleteAsync(resourceGroupName, zoneName, recordSetName, recordType);
+        }
+
         public async Task<RecordSet> GetRecordSetAsync(string zoneName, string recordSetName, RecordType recordType)
         {
             try

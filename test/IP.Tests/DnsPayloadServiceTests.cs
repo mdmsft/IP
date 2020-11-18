@@ -76,7 +76,7 @@ namespace IP.Tests
         public async Task WhenAllParametersAreCorrectThenConverts()
         {
             var headers = new HeaderDictionary(new Dictionary<string, StringValues> { { "Authorization", new StringValues($"Basic {Convert.ToBase64String(Encoding.ASCII.GetBytes("foo:bar"))}") } });
-            var query = new QueryCollection(new Dictionary<string, StringValues> { { "ipv4", new StringValues("1.2.3.4") }, { "ipv6", new StringValues("::1") }, { "fqdn", new StringValues("www.foo.bar") }, { "ds", new StringValues("0") } });
+            var query = new QueryCollection(new Dictionary<string, StringValues> { { "ipv4", new StringValues("1.2.3.4") }, { "ipv6", new StringValues("::1") }, { "fqdn", new StringValues("www.foo.bar") }, { "ds", new StringValues("1") } });
             var request = new DnsParameters(headers, query);
 
             var update = await sut.ConvertAsync(request);
@@ -86,6 +86,7 @@ namespace IP.Tests
             Assert.Equal("www.foo.bar", update.Domain);
             Assert.Equal("foo", update.Client);
             Assert.Equal("bar", update.Secret);
+            Assert.True(update.IsDualStack);
         }
     }
 }

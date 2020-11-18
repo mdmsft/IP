@@ -35,6 +35,11 @@ namespace IP.Services
                 tasks.Add(CreateOrUpdateRecordSet(update.V6, update.RecordSetName, update.ZoneName, update.Client, RecordType.AAAA));
             }
 
+            if (string.IsNullOrEmpty(update.V4) && update.IsDualStack)
+            {
+                tasks.Add(recordSetService.DeleteRecordSetAsync(update.ZoneName, update.RecordSetName, RecordType.A));
+            }
+
             await Task.WhenAll(tasks);
         }
 
